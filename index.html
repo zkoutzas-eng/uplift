@@ -300,7 +300,7 @@
         <div class="letter-avatar">U</div>
         <div>
           <div class="letter-sender-name">The Uplift Team</div>
-          <div class="letter-sender-meta"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="422a272e2e2d0237322e2b243623376c212d2f">[email&#160;protected]</a> → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86f5e7f4e7eec6e7f6e3fee1f4e9f3f6a8e5e9eb">[email&#160;protected]</a></div>
+          <div class="letter-sender-meta">hello@upliftau.com → sarah@apexgroup.com</div>
         </div>
       </div>
       <div class="letter-date">Mon, 8:02 AM</div>
@@ -315,7 +315,7 @@
       </div>
       <div class="letter-sign">
         <strong>The Uplift Team</strong>
-        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="442c2128282b043134282d223025316a272b29">[email&#160;protected]</a>
+        hello@upliftau.com
       </div>
     </div>
   </div>
@@ -404,7 +404,7 @@
         <div class="fe-dot" style="background:#28C840"></div>
       </div>
       <div class="fe-inner">
-        <div class="fe-meta">To: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f19b909c9482b183989596949d989f94949d949285839892909ddf929e9c">[email&#160;protected]</a><br>From: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="48202d242427083d3824212e3c293d662b2725">[email&#160;protected]</a><br>Fri, 7:58 AM</div>
+        <div class="fe-meta">To: james@ridgelineelectrical.com<br>From: hello@upliftau.com<br>Fri, 7:58 AM</div>
         <div class="fe-subject">Friday feeling, James.</div>
         <div class="fe-body">
           <p>James, you've made it to Friday. From what we can tell, it's been one of those weeks. The kind where you earn the weekend.</p>
@@ -491,7 +491,7 @@
         <li><div class="check">✓</div>Dedicated account manager</li>
         <li><div class="check">✓</div>SLA guarantee</li>
       </ul>
-      <a href="/cdn-cgi/l/email-protection#6c04090000032c191c00050a180d19420f0301" class="price-btn price-btn-outline">Get in touch</a>
+      <a href="mailto:hello@upliftau.com" class="price-btn price-btn-outline">Get in touch</a>
     </div>
   </div>
 </section>
@@ -542,13 +542,13 @@
   <div class="footer-links">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
-    <a href="/cdn-cgi/l/email-protection#365e535a5a597643465a5f504257431855595b">Contact</a>
+    <a href="mailto:hello@upliftau.com">Contact</a>
   </div>
   <div class="footer-copy">© 2026 Uplift. All rights reserved.</div>
 </footer>
 
 <script>
-  // FLOATING PARTICLES - hero section only, brand colours
+  // FLOATING PARTICLES
   const shapes = [
     `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21s-9-5.4-9-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.6-9 11-9 11z" fill="#2D5A3D"/></svg>`,
     `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21s-9-5.4-9-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.6-9 11-9 11z" fill="#161210"/></svg>`,
@@ -584,11 +584,18 @@
   for (let i = 0; i < 10; i++) setTimeout(spawnParticle, i * 500);
   setInterval(spawnParticle, 1600);
 
-async function submit() {
+  // MODAL
+  function openModal(e) { e.preventDefault(); document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  function closeOutside(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // SIGNUP - connected to backend
+  async function submit() {
     const email = document.getElementById('m-email').value;
     const company = document.getElementById('m-company').value;
     if (!email || !company) { alert('Please enter your company name and email.'); return; }
-    
+
     const btn = document.querySelector('.modal-btn');
     btn.textContent = 'Setting up your account...';
     btn.disabled = true;
@@ -625,8 +632,6 @@ async function submit() {
     document.getElementById('monthly').textContent = '$' + monthly.toLocaleString();
     document.getElementById('daily').textContent = '$' + daily;
   }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') {} });
 </script>
 </body>
 </html>
