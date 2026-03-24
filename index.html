@@ -10,89 +10,42 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --ink: #161210;
-    --ink-mid: #5C4A3A;
-    --ink-soft: #9C8472;
-    --cream: #FAF7F2;
-    --cream-mid: #F2EDE4;
-    --cream-deep: #E8DFD0;
-    --leaf: #2D5A3D;
-    --leaf-light: #E8F2EB;
-    --leaf-mid: #4A8A5F;
-    --border: rgba(92,74,58,0.12);
-    --white: #FFFFFF;
+    --ink: #161210; --ink-mid: #5C4A3A; --ink-soft: #9C8472;
+    --cream: #FAF7F2; --cream-mid: #F2EDE4; --cream-deep: #E8DFD0;
+    --leaf: #2D5A3D; --leaf-light: #E8F2EB; --leaf-mid: #4A8A5F;
+    --border: rgba(92,74,58,0.12); --white: #FFFFFF;
   }
   html { scroll-behavior: smooth; }
   body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
 
-  /* FLOATING PARTICLES */
+  /* PARTICLES */
   .particles-container { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .particle {
-    position: absolute; opacity: 0;
-    animation: floatUp linear forwards;
-    user-select: none;
-  }
+  .particle { position: absolute; opacity: 0; animation: floatUp linear forwards; user-select: none; }
   @keyframes floatUp {
     0% { opacity: 0; transform: translateY(0px) scale(0.7) rotate(0deg); }
-    12% { opacity: 0.65; }
-    75% { opacity: 0.45; }
+    12% { opacity: 0.65; } 75% { opacity: 0.45; }
     100% { opacity: 0; transform: translateY(-95vh) scale(1.05) rotate(15deg); }
   }
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 6%;
-    background: rgba(250,247,242,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 6%; background: rgba(250,247,242,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.3px; }
   .nav-logo span { color: var(--leaf); }
   .nav-links { display: flex; align-items: center; gap: 2.5rem; }
   .nav-links a { font-size: 14px; color: var(--ink-mid); text-decoration: none; font-weight: 400; transition: color 0.2s; }
   .nav-links a:hover { color: var(--ink); }
-  .nav-cta { background: var(--leaf); color: var(--white); padding: 10px 24px; border-radius: 99px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+  .nav-cta { background: var(--leaf); color: var(--white); padding: 10px 24px; border-radius: 99px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; }
   .nav-cta:hover { background: #234830; transform: translateY(-1px); }
 
   /* HERO */
-  .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 9rem 6% 5rem;
-    position: relative; overflow: hidden; isolation: isolate;
-  }
-  .hero-texture {
-    position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(45,90,61,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 10% 90%, rgba(45,90,61,0.05) 0%, transparent 50%),
-      radial-gradient(ellipse 40% 30% at 90% 60%, rgba(232,223,208,0.8) 0%, transparent 50%);
-  }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 9rem 6% 5rem; position: relative; overflow: hidden; isolation: isolate; }
+  .hero-texture { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(45,90,61,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 10% 90%, rgba(45,90,61,0.05) 0%, transparent 50%), radial-gradient(ellipse 40% 30% at 90% 60%, rgba(232,223,208,0.8) 0%, transparent 50%); }
   .hero-content { position: relative; z-index: 1; max-width: 800px; }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 13px; font-weight: 500; color: var(--leaf);
-    letter-spacing: 0.06em; text-transform: uppercase;
-    margin-bottom: 1.75rem;
-    animation: riseIn 0.7s ease both;
-  }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--leaf); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.75rem; animation: riseIn 0.7s ease both; }
   .eyebrow-line { width: 28px; height: 1px; background: var(--leaf); }
-  .hero-h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(44px, 6.5vw, 78px);
-    font-weight: 700; line-height: 1.08;
-    letter-spacing: -2px; color: var(--ink);
-    margin-bottom: 1.75rem;
-    animation: riseIn 0.7s ease 0.1s both;
-  }
+  .hero-h1 { font-family: 'Playfair Display', serif; font-size: clamp(44px, 6.5vw, 78px); font-weight: 700; line-height: 1.08; letter-spacing: -2px; color: var(--ink); margin-bottom: 1.75rem; animation: riseIn 0.7s ease 0.1s both; }
   .hero-h1 em { font-style: italic; color: var(--leaf); }
-  .hero-sub {
-    font-size: 18px; font-weight: 300; color: var(--ink-mid);
-    line-height: 1.75; max-width: 540px; margin: 0 auto 2.75rem;
-    animation: riseIn 0.7s ease 0.2s both;
-  }
+  .hero-sub { font-size: 18px; font-weight: 300; color: var(--ink-mid); line-height: 1.75; max-width: 540px; margin: 0 auto 2.75rem; animation: riseIn 0.7s ease 0.2s both; }
   .hero-actions { display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap; animation: riseIn 0.7s ease 0.3s both; }
   .btn-primary { background: var(--leaf); color: var(--white); padding: 15px 36px; border-radius: 99px; font-size: 15px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; display: inline-block; transition: all 0.2s; box-shadow: 0 6px 28px rgba(45,90,61,0.28); }
   .btn-primary:hover { background: #234830; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(45,90,61,0.38); }
@@ -101,17 +54,9 @@
   .hero-trust { margin-top: 3rem; font-size: 13px; color: var(--ink-soft); animation: riseIn 0.7s ease 0.4s both; }
   .hero-trust strong { color: var(--ink-mid); }
 
-  /* LETTER PREVIEW */
+  /* LETTER */
   .letter-section { padding: 3rem 6% 5rem; display: flex; justify-content: center; position: relative; z-index: 1; }
-  .letter-wrap {
-    max-width: 580px; width: 100%;
-    background: var(--white);
-    border-radius: 4px;
-    box-shadow: 0 2px 0 0 var(--cream-deep), 0 30px 80px rgba(22,18,16,0.1), 0 4px 16px rgba(22,18,16,0.06);
-    overflow: hidden;
-    animation: riseIn 0.8s ease 0.2s both;
-    position: relative;
-  }
+  .letter-wrap { max-width: 580px; width: 100%; background: var(--white); border-radius: 4px; box-shadow: 0 2px 0 0 var(--cream-deep), 0 30px 80px rgba(22,18,16,0.1), 0 4px 16px rgba(22,18,16,0.06); overflow: hidden; animation: riseIn 0.8s ease 0.2s both; position: relative; }
   .letter-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--leaf), var(--leaf-mid)); }
   .letter-header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   .letter-from { display: flex; align-items: center; gap: 12px; }
@@ -128,7 +73,7 @@
   .letter-sign { font-size: 13px; color: var(--ink-soft); margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
   .letter-sign strong { color: var(--ink-mid); display: block; margin-bottom: 2px; }
 
-  /* SOCIAL PROOF BAR */
+  /* PROOF BAR */
   .proof-bar { background: var(--ink); color: var(--white); padding: 1.25rem 6%; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; position: relative; z-index: 1; }
   .proof-stat { text-align: center; }
   .proof-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--white); }
@@ -137,7 +82,6 @@
 
   /* SECTIONS */
   .section { padding: 6rem 6%; position: relative; z-index: 1; }
-  .section-center { text-align: center; }
   .section-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--leaf); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
   .section-eyebrow.center { justify-content: center; }
   .section-eyebrow.center::before { content: ''; flex: 0 0 24px; height: 1px; background: var(--leaf); }
@@ -147,7 +91,7 @@
   .section-sub { font-size: 17px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; margin-bottom: 3.5rem; }
   .section-sub.centered { text-align: center; max-width: 500px; margin-left: auto; margin-right: auto; }
 
-  /* HOW IT WORKS */
+  /* STEPS */
   .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; }
   .step { padding: 1.75rem; border: 1px solid var(--border); border-radius: 16px; background: var(--white); transition: transform 0.2s, box-shadow 0.2s; }
   .step:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(22,18,16,0.08); }
@@ -207,7 +151,7 @@
   .price-btn-leaf { background: var(--leaf); color: var(--white); box-shadow: 0 4px 16px rgba(45,90,61,0.3); }
   .price-btn-leaf:hover { background: #234830; }
 
-  /* CALCULATOR */
+  /* CALC */
   .calc-section { background: var(--ink); padding: 5rem 6%; text-align: center; position: relative; z-index: 1; }
   .calc-inner { max-width: 580px; margin: 0 auto; }
   .calc-section .section-eyebrow { color: var(--leaf-mid); justify-content: center; }
@@ -263,9 +207,6 @@
 </head>
 <body>
 
-<!-- FLOATING PARTICLES -->
-<div class="particles-container" id="particles"></div>
-
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Up<span>lift</span></a>
@@ -279,6 +220,7 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="particles-container" id="particles"></div>
   <div class="hero-texture"></div>
   <div class="hero-content">
     <div class="hero-eyebrow"><div class="eyebrow-line"></div>Employee wellbeing, done differently</div>
@@ -300,7 +242,7 @@
         <div class="letter-avatar">U</div>
         <div>
           <div class="letter-sender-name">The Uplift Team</div>
-          <div class="letter-sender-meta"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="670f020b0b082712170b0e011306124904080a">[email&#160;protected]</a> → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86f5e7f4e7eec6e7f6e3fee1f4e9f3f6a8e5e9eb">[email&#160;protected]</a></div>
+          <div class="letter-sender-meta">hello@upliftau.com → sarah@apexgroup.com</div>
         </div>
       </div>
       <div class="letter-date">Mon, 8:02 AM</div>
@@ -315,7 +257,7 @@
       </div>
       <div class="letter-sign">
         <strong>The Uplift Team</strong>
-        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e088858c8c8fa095908c8986948195ce838f8d">[email&#160;protected]</a>
+        hello@upliftau.com
       </div>
     </div>
   </div>
@@ -338,26 +280,10 @@
   <h2 class="section-h2 centered">Set it up once. We handle everything else.</h2>
   <p class="section-sub centered">You focus on running your business. Uplift takes care of your team's daily dose of motivation.</p>
   <div class="steps-grid">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Sign up and add your team</h3>
-      <p>Create your account, upload your employee list, and tell us a little about your company culture. Five minutes, done.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>We learn what matters to you</h3>
-      <p>Share your team's values and the tone you want. We tailor every message to feel like it came from someone who truly knows your people.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Messages land every morning</h3>
-      <p>At the time you choose, each employee receives a personal, thoughtful message. Unique to them, every single day.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <h3>Watch the culture shift</h3>
-      <p>Track open rates and team sentiment from your dashboard. Most companies notice a real change within the first two weeks.</p>
-    </div>
+    <div class="step"><div class="step-num">01</div><h3>Sign up and add your team</h3><p>Create your account, upload your employee list, and tell us a little about your company culture. Five minutes, done.</p></div>
+    <div class="step"><div class="step-num">02</div><h3>We learn what matters to you</h3><p>Share your team's values and the tone you want. We tailor every message to feel like it came from someone who truly knows your people.</p></div>
+    <div class="step"><div class="step-num">03</div><h3>Messages land every morning</h3><p>At the time you choose, each employee receives a personal, thoughtful message. Unique to them, every single day.</p></div>
+    <div class="step"><div class="step-num">04</div><h3>Watch the culture shift</h3><p>Track open rates and team sentiment from your dashboard. Most companies notice a real change within the first two weeks.</p></div>
   </div>
 </section>
 
@@ -368,34 +294,10 @@
   <p class="section-sub centered">Every message is personal, warm, and timed to land before the day begins, when it matters most.</p>
   <div class="features-split">
     <div class="feature-list">
-      <div class="feature">
-        <div class="feature-dot"></div>
-        <div>
-          <h4>Personal to each employee</h4>
-          <p>Every message uses their name and what's happening in their world. It never feels generic.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-dot"></div>
-        <div>
-          <h4>A thought for the day</h4>
-          <p>A carefully chosen reflection relevant to their week. Something worth carrying with them.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-dot"></div>
-        <div>
-          <h4>Your tone, your culture</h4>
-          <p>Whether your team is warm and casual or sharp and driven, the messages reflect who you actually are.</p>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="feature-dot"></div>
-        <div>
-          <h4>A gentle push forward</h4>
-          <p>Each message ends with a small nudge. A reminder of their value and what they're capable of today.</p>
-        </div>
-      </div>
+      <div class="feature"><div class="feature-dot"></div><div><h4>Personal to each employee</h4><p>Every message uses their name and what's happening in their world. It never feels generic.</p></div></div>
+      <div class="feature"><div class="feature-dot"></div><div><h4>A thought for the day</h4><p>A carefully chosen reflection relevant to their week. Something worth carrying with them.</p></div></div>
+      <div class="feature"><div class="feature-dot"></div><div><h4>Your tone, your culture</h4><p>Whether your team is warm and casual or sharp and driven, the messages reflect who you actually are.</p></div></div>
+      <div class="feature"><div class="feature-dot"></div><div><h4>A gentle push forward</h4><p>Each message ends with a small nudge. A reminder of their value and what they're capable of today.</p></div></div>
     </div>
     <div class="feature-email">
       <div class="fe-bar">
@@ -404,7 +306,7 @@
         <div class="fe-dot" style="background:#28C840"></div>
       </div>
       <div class="fe-inner">
-        <div class="fe-meta">To: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1bbb0bcb4a291a3b8b5b6b4bdb8bfb4b4bdb4b2a5a3b8b2b0bdffb2bebc">[email&#160;protected]</a><br>From: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6008050c0c0f2015100c09061401154e030f0d">[email&#160;protected]</a><br>Fri, 7:58 AM</div>
+        <div class="fe-meta">To: james@ridgelineelectrical.com<br>From: hello@upliftau.com<br>Fri, 7:58 AM</div>
         <div class="fe-subject">Friday feeling, James.</div>
         <div class="fe-body">
           <p>James, you've made it to Friday. From what we can tell, it's been one of those weeks. The kind where you earn the weekend.</p>
@@ -424,26 +326,17 @@
     <div class="testimonial">
       <div class="t-stars">★★★★★</div>
       <div class="t-text">"I was sceptical. Three weeks later, three different employees mentioned it unprompted. One said it was the first time they felt like the company actually saw them."</div>
-      <div class="t-author">
-        <div class="t-avatar" style="background: var(--leaf);">JM</div>
-        <div><div class="t-name">James M.</div><div class="t-role">Operations Director, BuildRight Group</div></div>
-      </div>
+      <div class="t-author"><div class="t-avatar" style="background: var(--leaf);">JM</div><div><div class="t-name">James M.</div><div class="t-role">Operations Director, BuildRight Group</div></div></div>
     </div>
     <div class="testimonial">
       <div class="t-stars">★★★★★</div>
       <div class="t-text">"We've done retreats, bonuses, town halls. Nothing moved the needle on daily morale like this. It's the smallest thing that somehow does the most."</div>
-      <div class="t-author">
-        <div class="t-avatar" style="background:#1E40AF;">PK</div>
-        <div><div class="t-name">Priya K.</div><div class="t-role">Head of People, Vertex Services</div></div>
-      </div>
+      <div class="t-author"><div class="t-avatar" style="background:#1E40AF;">PK</div><div><div class="t-name">Priya K.</div><div class="t-role">Head of People, Vertex Services</div></div></div>
     </div>
     <div class="testimonial">
       <div class="t-stars">★★★★★</div>
       <div class="t-text">"Monday mornings are different now. People walk in with something. I can't fully explain it but starting the day feeling seen makes a real difference."</div>
-      <div class="t-author">
-        <div class="t-avatar" style="background:#7C3AED;">TR</div>
-        <div><div class="t-name">Tom R.</div><div class="t-role">Founder, Ridgeline Electrical</div></div>
-      </div>
+      <div class="t-author"><div class="t-avatar" style="background:#7C3AED;">TR</div><div><div class="t-name">Tom R.</div><div class="t-role">Founder, Ridgeline Electrical</div></div></div>
     </div>
   </div>
 </section>
@@ -491,7 +384,7 @@
         <li><div class="check">✓</div>Dedicated account manager</li>
         <li><div class="check">✓</div>SLA guarantee</li>
       </ul>
-      <a href="/cdn-cgi/l/email-protection#4028252c2c2f0035302c29263421356e232f2d" class="price-btn price-btn-outline">Get in touch</a>
+      <a href="mailto:hello@upliftau.com" class="price-btn price-btn-outline">Get in touch</a>
     </div>
   </div>
 </section>
@@ -509,14 +402,8 @@
       </div>
       <input type="range" min="5" max="500" value="50" step="5" id="slider" oninput="updateCalc(this.value)">
       <div class="calc-result-row">
-        <div class="calc-result-item">
-          <div class="calc-result-val" id="monthly">$75</div>
-          <div class="calc-result-label">total per month</div>
-        </div>
-        <div class="calc-result-item">
-          <div class="calc-result-val" id="daily">$2.50</div>
-          <div class="calc-result-label">per day for the whole team</div>
-        </div>
+        <div class="calc-result-item"><div class="calc-result-val" id="monthly">$75</div><div class="calc-result-label">total per month</div></div>
+        <div class="calc-result-item"><div class="calc-result-val" id="daily">$2.50</div><div class="calc-result-label">per day for the whole team</div></div>
       </div>
       <div class="calc-footnote">Less than one barista coffee a day, for your entire team's morning.</div>
     </div>
@@ -542,12 +429,12 @@
   <div class="footer-links">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
-    <a href="/cdn-cgi/l/email-protection#f39b969f9f9cb386839f9a95879286dd909c9e">Contact</a>
+    <a href="mailto:hello@upliftau.com">Contact</a>
   </div>
   <div class="footer-copy">© 2026 Uplift. All rights reserved.</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- MODAL -->
+<!-- MODAL -->
 <div class="modal-bg" id="modal" onclick="closeOutside(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -573,7 +460,7 @@
 </div>
 
 <script>
-  // FLOATING PARTICLES
+  // PARTICLES inside hero only
   const shapes = [
     `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21s-9-5.4-9-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.6-9 11-9 11z" fill="#2D5A3D"/></svg>`,
     `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21s-9-5.4-9-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.6-9 11-9 11z" fill="#161210"/></svg>`,
@@ -595,9 +482,7 @@
     el.className = 'particle';
     el.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
     const fromLeft = Math.random() < 0.5;
-    el.style.left = fromLeft
-      ? (Math.random() * 12) + '%'
-      : (Math.random() * 12 + 88) + '%';
+    el.style.left = fromLeft ? (Math.random() * 12) + '%' : (Math.random() * 12 + 88) + '%';
     el.style.bottom = (Math.random() * 25) + '%';
     const duration = 7 + Math.random() * 8;
     el.style.animationDuration = duration + 's';
@@ -615,7 +500,7 @@
   function closeOutside(e) { if (e.target === document.getElementById('modal')) closeModal(); }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // SIGNUP - connected to backend
+  // SIGNUP connected to backend
   async function submit() {
     const email = document.getElementById('m-email').value;
     const company = document.getElementById('m-company').value;
@@ -634,4 +519,29 @@
       const data = await res.json();
       if (data.success) {
         document.getElementById('form-state').style.display = 'none';
-        document.getElementById('suc
+        document.getElementById('success-state').style.display = 'block';
+      } else {
+        alert('Something went wrong, please try again.');
+        btn.textContent = 'Create my free account →';
+        btn.disabled = false;
+      }
+    } catch(e) {
+      alert('Something went wrong, please try again.');
+      btn.textContent = 'Create my free account →';
+      btn.disabled = false;
+    }
+  }
+
+  // CALCULATOR
+  function updateCalc(val) {
+    val = parseInt(val);
+    document.getElementById('emp-label').textContent = val;
+    const rate = val <= 25 ? 2 : 1.5;
+    const monthly = Math.round(val * rate);
+    const daily = (monthly / 30).toFixed(2);
+    document.getElementById('monthly').textContent = '$' + monthly.toLocaleString();
+    document.getElementById('daily').textContent = '$' + daily;
+  }
+</script>
+</body>
+</html>
