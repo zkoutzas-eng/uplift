@@ -465,8 +465,16 @@ async function init() {
     return;
   }
 
+  // Wake up Render (free tier spins down after inactivity)
+  document.getElementById('loading-screen').querySelector('p').textContent = 'Waking up the server, this can take up to 30 seconds...';
+  try { await fetch(`${BACKEND}/`); } catch(e) {}
+
   try {
-    const res = await fetch(`${BACKEND}/api/dashboard/${companyId}`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
+    const res = await fetch(`${BACKEND}/api/dashboard/${companyId}`, { signal: controller.signal });
+    clearTimeout(timeout);
     if (!res.ok) throw new Error('Failed to load');
     const data = await res.json();
 
@@ -493,10 +501,14 @@ async function init() {
     document.getElementById('main-dashboard').style.display = 'block';
 
   } catch (err) {
+    const msg = err.name === 'AbortError'
+      ? 'Server is taking too long to respond. Please refresh and try again.'
+      : 'Could not load dashboard. Please refresh the page and try again.';
     document.getElementById('loading-screen').innerHTML = `
       <div class="state-screen">
         <p style="font-size:32px;">⚠️</p>
-        <p>Could not load dashboard. Please check your link or try again.</p>
+        <p>${msg}</p>
+        <button onclick="location.reload()" style="margin-top:1.5rem; background:var(--leaf); color:white; border:none; padding:12px 28px; border-radius:99px; font-size:14px; font-family:'Outfit',sans-serif; cursor:pointer;">Try again</button>
       </div>`;
   }
 }
@@ -610,8 +622,40 @@ function handleCSV(input) {
     }
     if (!parsed.length) { showToast('No valid employees found in CSV.', 'error'); return; }
     window.csvParsed = parsed;
+
+    let rows = parsed.map(p => {
+      const div = document.createElement('div');
+      div.style.cssText = 'display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8dfd0;font-size:13px;';
+      div.innerHTML = '<span style="font-weight:500;">' + p.name + '</span><span style="color:#9C8472;">' + p.email + '</span>';
+      return div.outerHTML;
+    }).join('');
+
     const preview = document.getElementById('csv-preview');
-    preview.innerHTML = '<div style="font-size:13px;color:var(--ink-mid);margin-bottom:10px;">Found <strong>' + parsed.length + ' employee' + (parsed.length > 1 ? 's' : '') + '</strong> ready to invite:</div><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;background:var(--white);margin-bottom:10px;">' + parsed.map(p => '<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;"><span style=\"font-weight:500;color:var(--ink);\">' + p.name + '</span><span style=\"color:var(--ink-soft);\">' + p.email + '</span></div>').join('') + '</div><button class="bulk-add-btn" id="csv-confirm-btn" onclick="addFromCSV(window.csvParsed)">Add all and send invites</button><button onclick="cancelCSV()" style="margin-left:8px;background:none;border:none;font-size:13px;color:var(--ink-soft);cursor:pointer;font-family:\'Outfit\',sans-serif;">Cancel</button>';
+    preview.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.style.cssText = 'font-size:13px;color:#5C4A3A;margin-bottom:10px;';
+    header.innerHTML = 'Found <strong>' + parsed.length + ' employee' + (parsed.length > 1 ? 's' : '') + '</strong> ready to invite:';
+    preview.appendChild(header);
+
+    const list = document.createElement('div');
+    list.style.cssText = 'max-height:160px;overflow-y:auto;border:1px solid #e8dfd0;border-radius:10px;background:white;margin-bottom:10px;';
+    list.innerHTML = rows;
+    preview.appendChild(list);
+
+    const confirmBtn = document.createElement('button');
+    confirmBtn.id = 'csv-confirm-btn';
+    confirmBtn.className = 'bulk-add-btn';
+    confirmBtn.textContent = 'Add all and send invites';
+    confirmBtn.onclick = function() { addFromCSV(window.csvParsed); };
+    preview.appendChild(confirmBtn);
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.style.cssText = 'margin-left:8px;background:none;border:none;font-size:13px;color:#9C8472;cursor:pointer;font-family:Outfit,sans-serif;';
+    cancelBtn.onclick = cancelCSV;
+    preview.appendChild(cancelBtn);
+
     document.getElementById('bulk-area').style.display = 'block';
   };
   reader.readAsText(file);
