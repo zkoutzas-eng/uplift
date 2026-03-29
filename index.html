@@ -384,7 +384,7 @@
         <li><div class="check">✓</div>Dedicated account manager</li>
         <li><div class="check">✓</div>SLA guarantee</li>
       </ul>
-      <a href="mailto:hello@upliftau.com?subject=Uplift Enterprise Enquiry" class="price-btn price-btn-outline">Get in touch</a>
+      <a href="mailto:hello@upliftau.com" class="price-btn price-btn-outline">Get in touch</a>
     </div>
   </div>
 </section>
@@ -427,8 +427,8 @@
 <footer>
   <div class="footer-logo">Up<span>lift</span></div>
   <div class="footer-links">
-    <a href="/privacy">Privacy</a>
-    <a href="/terms">Terms</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
     <a href="mailto:hello@upliftau.com">Contact</a>
   </div>
   <div class="footer-copy">© 2026 Uplift. All rights reserved.</div>
@@ -519,4 +519,29 @@
       const data = await res.json();
       if (data.success) {
         document.getElementById('form-state').style.display = 'none';
-        document.getElementById('suc
+        document.getElementById('success-state').style.display = 'block';
+      } else {
+        alert('Something went wrong, please try again.');
+        btn.textContent = 'Create my free account →';
+        btn.disabled = false;
+      }
+    } catch(e) {
+      alert('Something went wrong, please try again.');
+      btn.textContent = 'Create my free account →';
+      btn.disabled = false;
+    }
+  }
+
+  // CALCULATOR
+  function updateCalc(val) {
+    val = parseInt(val);
+    document.getElementById('emp-label').textContent = val;
+    const rate = val <= 25 ? 2 : 1.5;
+    const monthly = Math.round(val * rate);
+    const daily = (monthly / 30).toFixed(2);
+    document.getElementById('monthly').textContent = '$' + monthly.toLocaleString();
+    document.getElementById('daily').textContent = '$' + daily;
+  }
+</script>
+</body>
+</html>
