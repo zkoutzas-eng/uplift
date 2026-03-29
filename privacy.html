@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Uplift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #161210; --ink-mid: #5C4A3A; --ink-soft: #9C8472;
+  --cream: #FAF7F2; --cream-deep: #E8DFD0;
+  --leaf: #2D5A3D; --leaf-light: #E8F2EB;
+  --border: rgba(92,74,58,0.13); --white: #FFFFFF;
+}
+body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+.topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); text-decoration: none; }
+.logo span { color: var(--leaf); }
+.back { font-size: 13px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+.back:hover { color: var(--ink); }
+.page { max-width: 680px; margin: 0 auto; padding: 4rem 5% 6rem; }
+.eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--leaf); margin-bottom: 0.75rem; }
+h1 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.2; }
+.last-updated { font-size: 13px; color: var(--ink-soft); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--ink); margin: 2.5rem 0 0.75rem; }
+p { font-size: 15px; color: var(--ink-mid); line-height: 1.8; margin-bottom: 1rem; }
+a { color: var(--leaf); }
+.contact-box { background: var(--leaf-light); border: 1px solid var(--leaf); border-radius: 14px; padding: 1.5rem; margin-top: 3rem; }
+.contact-box p { color: var(--ink-mid); margin: 0; }
+.contact-box strong { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="logo">Up<span>lift</span></a>
+  <a href="/" class="back">← Back to home</a>
+</div>
+
+<div class="page">
+  <div class="eyebrow">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="last-updated">Last updated: March 2026</p>
+
+  <p>At Uplift, we take your privacy seriously. This policy explains what information we collect, how we use it, and how we protect it. By using Uplift, you agree to the practices described here.</p>
+
+  <h2>What information we collect</h2>
+  <p>When a company signs up for Uplift, we collect the company name and the email address of the person who registered. When employees are added to the platform, we collect their name and work email address. During the employee personalisation setup, we collect optional information including hobbies and interests, preferred message tone, preferred send time, and any personal context the employee chooses to share. We also collect timezone information automatically to ensure messages are delivered at the correct local time.</p>
+
+  <h2>How we use your information</h2>
+  <p>We use company and employee information solely to provide the Uplift service. This means generating personalised morning messages for each employee and delivering them at the chosen time. Employee preference data is passed to our AI system (Anthropic Claude) to generate relevant, personalised content. We use email addresses to send daily messages, setup invitations, and service-related communications. We do not use your information for advertising, and we do not sell your data to any third party.</p>
+
+  <h2>AI-generated content</h2>
+  <p>Uplift uses Anthropic's Claude AI to generate personalised morning messages. Employee preference data (hobbies, tone, focus areas) is sent to Anthropic's API to generate each message. Anthropic's own privacy policy governs how they handle data submitted via their API. We only send the minimum information necessary to generate a relevant, personalised message.</p>
+
+  <h2>Data storage and security</h2>
+  <p>All data is stored securely in Supabase, a trusted cloud database provider. Payment information is handled entirely by Stripe and never touches our servers. We use industry-standard encryption for all data in transit and at rest. Access to your company's data is restricted to authorised personnel only.</p>
+
+  <h2>Employee data and consent</h2>
+  <p>Companies are responsible for ensuring their employees are aware that Uplift is being used and that they have consented to their work email being used for this service. Employees can contact us at any time to request that their personal data be deleted.</p>
+
+  <h2>Data retention</h2>
+  <p>We retain company and employee data for as long as an account is active. If a subscription is cancelled and an account is closed, we will delete all associated data within 30 days upon request. Email logs may be retained for up to 90 days for operational purposes.</p>
+
+  <h2>Your rights</h2>
+  <p>You have the right to access the personal data we hold about you, request corrections to inaccurate data, request deletion of your data, and opt out of non-essential communications. To exercise any of these rights, please contact us at the address below.</p>
+
+  <h2>Cookies</h2>
+  <p>Our website uses minimal cookies necessary for the site to function. We do not use tracking or advertising cookies.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>We may update this privacy policy from time to time. We will notify registered companies of any significant changes via email. The date at the top of this page reflects when the policy was last updated.</p>
+
+  <div class="contact-box">
+    <p><strong>Questions about your privacy?</strong><br>
+    Contact us at <a href="mailto:hello@upliftau.com">hello@upliftau.com</a> and we will respond within 2 business days.</p>
+  </div>
+</div>
+
+</body>
+</html>
