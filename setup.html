@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Uplift Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #161210;
+  --ink-mid: #5C4A3A;
+  --ink-soft: #9C8472;
+  --cream: #FAF7F2;
+  --cream-mid: #F2EDE4;
+  --cream-deep: #E8DFD0;
+  --leaf: #2D5A3D;
+  --leaf-light: #E8F2EB;
+  --leaf-mid: #4A8A5F;
+  --border: rgba(92,74,58,0.14);
+  --white: #FFFFFF;
+  --shadow: 0 4px 24px rgba(22,18,16,0.08);
+  --shadow-lg: 0 12px 48px rgba(22,18,16,0.12);
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ---- TOP BAR ---- */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.logo span { color: var(--leaf); }
+.topbar-sub { font-size: 13px; color: var(--ink-soft); }
+
+/* ---- LAYOUT ---- */
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3rem 5% 5rem;
+}
+
+/* ---- STEP INDICATOR ---- */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+}
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--cream-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--white);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.step-dot.active {
+  background: var(--leaf);
+  border-color: var(--leaf);
+  color: var(--white);
+  box-shadow: 0 0 0 4px var(--leaf-light);
+}
+.step-dot.complete {
+  background: var(--leaf-light);
+  border-color: var(--leaf-mid);
+  color: var(--leaf);
+}
+.step-dot.complete::after {
+  content: '✓';
+  font-size: 13px;
+}
+.step-dot.complete .step-num { display: none; }
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--cream-deep);
+  max-width: 60px;
+  transition: background 0.3s;
+}
+.step-line.done { background: var(--leaf-mid); }
+
+/* ---- CARDS ---- */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.4s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--leaf-mid);
+  margin-bottom: 0.5rem;
+}
+.card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+.card h2 em { font-style: italic; color: var(--leaf); }
+.card-sub {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ---- FORM ELEMENTS ---- */
+.field { margin-bottom: 1.25rem; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  margin-bottom: 7px;
+}
+.field input, .field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--cream-deep);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--leaf);
+  box-shadow: 0 0 0 3px var(--leaf-light);
+  background: var(--white);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+/* ---- HOBBY CHIPS ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 99px;
+  border: 1.5px solid var(--cream-deep);
+  background: var(--white);
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.chip:hover { border-color: var(--leaf-mid); color: var(--leaf); }
+.chip.selected {
+  background: var(--leaf);
+  border-color: var(--leaf);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(45,90,61,0.25);
+}
+.chip-icon { font-size: 16px; line-height: 1; }
+
+/* ---- TONE CARDS ---- */
+.tone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+.tone-card {
+  border: 1.5px solid var(--cream-deep);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--white);
+}
+.tone-card:hover { border-color: var(--leaf-mid); }
+.tone-card.selected {
+  border-color: var(--leaf);
+  background: var(--leaf-light);
+  box-shadow: 0 0 0 3px var(--leaf-light);
+}
+.tone-icon { font-size: 22px; margin-bottom: 6px; }
+.tone-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.tone-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+.tone-card.selected .tone-name { color: var(--leaf); }
+
+/* ---- TIME GRID ---- */
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.time-btn {
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--cream-deep);
+  background: var(--white);
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.time-btn:hover { border-color: var(--leaf-mid); color: var(--leaf); }
+.time-btn.selected {
+  background: var(--leaf);
+  border-color: var(--leaf);
+  color: var(--white);
+  font-weight: 500;
+}
+.time-custom-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+.time-custom-row label { font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
+.time-custom-row input[type="time"] {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid var(--cream-deep);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  outline: none;
+}
+.time-custom-row input[type="time"]:focus { border-color: var(--leaf); }
+
+/* ---- BUTTONS ---- */
+.btn-primary {
+  width: 100%;
+  padding: 15px;
+  background: var(--leaf);
+  color: var(--white);
+  border: none;
+  border-radius: 99px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 16px rgba(45,90,61,0.25);
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover {
+  background: #234830;
+  box-shadow: 0 6px 24px rgba(45,90,61,0.35);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { background: var(--ink-soft); cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+.btn-back:hover { color: var(--ink); }
+
+/* ---- SUCCESS ---- */
+.success-screen {
+  text-align: center;
+  padding: 1rem 0 0;
+}
+.success-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--leaf-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 1.5rem;
+  border: 2px solid var(--leaf-mid);
+}
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  margin-bottom: 0.75rem;
+}
+.success-screen p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+.preview-email {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: left;
+  margin-top: 1rem;
+}
+.preview-from {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 0.25rem;
+}
+.preview-subject {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.preview-body {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+.preview-badge {
+  display: inline-block;
+  background: var(--leaf-light);
+  color: var(--leaf);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ---- ERROR ---- */
+.error-msg {
+  font-size: 13px;
+  color: #DC2626;
+  margin-top: 8px;
+  display: none;
+}
+.error-msg.show { display: block; }
+
+/* ---- LOADING ---- */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 500px) {
+  .card { padding: 1.75rem 1.25rem; }
+  .field-row { grid-template-columns: 1fr; }
+  .tone-grid { grid-template-columns: 1fr 1fr; }
+  .time-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Up<span>lift</span></div>
+  <div class="topbar-sub">Employee setup, 5 minutes</div>
+</div>
+
+<div class="page">
+
+  <!-- STEP INDICATOR -->
+  <div class="steps" id="step-indicator">
+    <div class="step-dot active" id="dot-1"><span class="step-num">1</span></div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-dot" id="dot-2"><span class="step-num">2</span></div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-dot" id="dot-3"><span class="step-num">3</span></div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step-dot" id="dot-4"><span class="step-num">4</span></div>
+    <div class="step-line" id="line-4"></div>
+    <div class="step-dot" id="dot-5"><span class="step-num">5</span></div>
+  </div>
+
+  <!-- STEP 1: Name & Role -->
+  <div id="step-1" class="card">
+    <div class="card-eyebrow">Step 1 of 5</div>
+    <h2>Good morning. Let's get you <em>set up.</em></h2>
+    <p class="card-sub">Just a few things so your messages feel like they're made for you. Because they will be.</p>
+
+    <div class="field">
+      <label>Your name</label>
+      <input type="text" id="first-name" placeholder="Sarah Chen" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Your role</label>
+      <input type="text" id="role" placeholder="e.g. Project Manager, Account Executive...">
+    </div>
+    <div id="err-1" class="error-msg">Please enter your name to continue.</div>
+    <button class="btn-primary" onclick="goStep(2)">Continue →</button>
+  </div>
+
+  <!-- STEP 2: Hobbies -->
+  <div id="step-2" class="card" style="display:none;">
+    <button class="btn-back" onclick="goStep(1)">← Back</button>
+    <div class="card-eyebrow">Step 2 of 5</div>
+    <h2>What lights you <em>up?</em></h2>
+    <p class="card-sub">Pick as many as feel right. Your messages will weave in what matters to you.</p>
+
+    <div class="chips" id="hobby-chips">
+      <div class="chip" onclick="toggleChip(this,'fitness')"><span class="chip-icon">🏃</span>Fitness</div>
+      <div class="chip" onclick="toggleChip(this,'music')"><span class="chip-icon">🎵</span>Music</div>
+      <div class="chip" onclick="toggleChip(this,'cooking')"><span class="chip-icon">🍳</span>Cooking</div>
+      <div class="chip" onclick="toggleChip(this,'reading')"><span class="chip-icon">📚</span>Reading</div>
+      <div class="chip" onclick="toggleChip(this,'travel')"><span class="chip-icon">✈️</span>Travel</div>
+      <div class="chip" onclick="toggleChip(this,'family')"><span class="chip-icon">👨‍👩‍👧</span>Family</div>
+      <div class="chip" onclick="toggleChip(this,'sports')"><span class="chip-icon">⚽</span>Sports</div>
+      <div class="chip" onclick="toggleChip(this,'nature')"><span class="chip-icon">🌿</span>Nature</div>
+      <div class="chip" onclick="toggleChip(this,'art')"><span class="chip-icon">🎨</span>Art & Design</div>
+      <div class="chip" onclick="toggleChip(this,'tech')"><span class="chip-icon">💻</span>Tech</div>
+      <div class="chip" onclick="toggleChip(this,'mindfulness')"><span class="chip-icon">🧘</span>Mindfulness</div>
+      <div class="chip" onclick="toggleChip(this,'pets')"><span class="chip-icon">🐾</span>Pets</div>
+      <div class="chip" onclick="toggleChip(this,'gaming')"><span class="chip-icon">🎮</span>Gaming</div>
+      <div class="chip" onclick="toggleChip(this,'volunteering')"><span class="chip-icon">🤝</span>Volunteering</div>
+    </div>
+
+    <div class="field">
+      <label>Anything else? (optional)</label>
+      <input type="text" id="hobbies-other" placeholder="e.g. sourdough baking, salsa dancing...">
+    </div>
+    <button class="btn-primary" onclick="goStep(3)">Continue →</button>
+  </div>
+
+  <!-- STEP 3: Tone -->
+  <div id="step-3" class="card" style="display:none;">
+    <button class="btn-back" onclick="goStep(2)">← Back</button>
+    <div class="card-eyebrow">Step 3 of 5</div>
+    <h2>How do you like to <em>start the day?</em></h2>
+    <p class="card-sub">Choose the tone that feels most like you. This shapes how every message is written.</p>
+
+    <div class="tone-grid">
+      <div class="tone-card" onclick="selectTone(this,'warm')" id="tone-warm">
+        <div class="tone-icon">☀️</div>
+        <div class="tone-name">Warm & caring</div>
+        <div class="tone-desc">Gentle, human, like hearing from a good friend.</div>
+      </div>
+      <div class="tone-card" onclick="selectTone(this,'motivational')" id="tone-motivational">
+        <div class="tone-icon">⚡</div>
+        <div class="tone-name">Energising</div>
+        <div class="tone-desc">Fired up, forward-moving, ready to tackle the day.</div>
+      </div>
+      <div class="tone-card" onclick="selectTone(this,'calm')" id="tone-calm">
+        <div class="tone-icon">🌊</div>
+        <div class="tone-name">Calm & grounded</div>
+        <div class="tone-desc">Steady, mindful, built for a focused morning.</div>
+      </div>
+      <div class="tone-card" onclick="selectTone(this,'fun')" id="tone-fun">
+        <div class="tone-icon">✨</div>
+        <div class="tone-name">Fun & light</div>
+        <div class="tone-desc">Upbeat, witty, the kind of message that makes you smile.</div>
+      </div>
+    </div>
+
+    <div id="err-3" class="error-msg">Pick a tone to continue.</div>
+    <button class="btn-primary" onclick="goStep(4)">Continue →</button>
+  </div>
+
+  <!-- STEP 4: Send Time -->
+  <div id="step-4" class="card" style="display:none;">
+    <button class="btn-back" onclick="goStep(3)">← Back</button>
+    <div class="card-eyebrow">Step 4 of 5</div>
+    <h2>When should your message <em>arrive?</em></h2>
+    <p class="card-sub">Pick the moment before the day gets loud. That's when it'll land best.</p>
+
+    <div class="time-grid" id="time-options">
+      <button class="time-btn" onclick="selectTime(this,'7:00 AM')">7:00 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'7:30 AM')">7:30 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'8:00 AM')">8:00 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'8:30 AM')">8:30 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'9:00 AM')">9:00 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'9:30 AM')">9:30 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'10:00 AM')">10:00 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'10:30 AM')">10:30 AM</button>
+      <button class="time-btn" onclick="selectTime(this,'11:00 AM')">11:00 AM</button>
+    </div>
+    <div class="time-custom-row">
+      <label>Custom time:</label>
+      <input type="time" id="custom-time" onchange="selectCustomTime(this.value)">
+    </div>
+
+    <div id="err-4" class="error-msg">Please choose a send time.</div>
+    <button class="btn-primary" onclick="goStep(5)">Continue →</button>
+  </div>
+
+  <!-- STEP 5: Focus / Context -->
+  <div id="step-5" class="card" style="display:none;">
+    <button class="btn-back" onclick="goStep(4)">← Back</button>
+    <div class="card-eyebrow">Step 5 of 5, almost there</div>
+    <h2>What are you <em>working through</em> right now?</h2>
+    <p class="card-sub">No pressure, this is optional. But if you share something, your messages will speak directly to it.</p>
+
+    <div class="field">
+      <label>What's on your mind lately? (optional)</label>
+      <textarea id="focus-text" rows="4" placeholder="e.g. I'm leading a big project for the first time and feeling the pressure. Or: just trying to find more balance between work and home..."></textarea>
+    </div>
+
+    <div id="err-submit" class="error-msg">Something went wrong. Please try again.</div>
+    <button class="btn-primary" id="submit-btn" onclick="submitSetup()">Finish setup 🎉</button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="step-success" class="card" style="display:none;">
+    <div class="success-screen">
+      <div class="success-icon">🌿</div>
+      <h2>You're all set, <span id="success-name">there</span>.</h2>
+      <p>Your first message will be waiting in your inbox tomorrow morning. We can't wait for you to read it.</p>
+
+      <div class="preview-email">
+        <div class="preview-badge">Preview of what's coming</div>
+        <div class="preview-from">From: The Uplift Team</div>
+        <div class="preview-subject">Good morning, <span class="preview-name-inline"></span> ☀️</div>
+        <div class="preview-body" id="preview-body">
+          Before the day gets going, take a breath. You're showing up, and that already says a lot about the kind of person you are.<br><br>
+          <em>"The work you do in the hard weeks is what the good weeks are built on."</em><br><br>
+          Your team notices more than you think. Carry that with you today.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const BACKEND = 'https://uplift-backend-sx3t.onrender.com';
+
+let state = {
+  firstName: '',
+  lastName: '',
+  role: '',
+  hobbies: [],
+  hobbiesOther: '',
+  tone: '',
+  sendTime: '',
+  focus: '',
+  employeeId: null
+};
+
+// Get employee ID from URL ?id=xxx
+const params = new URLSearchParams(window.location.search);
+state.employeeId = params.get('employee') || null;
+
+// ---- STEP NAVIGATION ----
+function goStep(n) {
+  if (n > 1 && !validateStep(n - 1)) return;
+
+  // Hide all
+  [1,2,3,4,5,'success'].forEach(s => {
+    const el = document.getElementById('step-' + s);
+    if (el) el.style.display = 'none';
+  });
+
+  // Show target
+  document.getElementById('step-' + n).style.display = 'block';
+
+  // Update dots
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.className = 'step-dot';
+    if (i < n) {
+      dot.className = 'step-dot complete';
+      dot.innerHTML = '';
+    } else if (i === n) {
+      dot.className = 'step-dot active';
+      dot.innerHTML = '<span class="step-num">' + i + '</span>';
+    } else {
+      dot.innerHTML = '<span class="step-num">' + i + '</span>';
+    }
+  }
+
+  // Update lines
+  for (let i = 1; i <= 4; i++) {
+    const line = document.getElementById('line-' + i);
+    line.className = i < n ? 'step-line done' : 'step-line';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep(n) {
+  if (n === 1) {
+    const fn = document.getElementById('first-name').value.trim();
+    if (!fn) {
+      document.getElementById('err-1').classList.add('show');
+      return false;
+    }
+    document.getElementById('err-1').classList.remove('show');
+    state.firstName = fn;
+    state.lastName = '';
+    state.role = document.getElementById('role').value.trim();
+    return true;
+  }
+  if (n === 2) {
+    state.hobbiesOther = document.getElementById('hobbies-other').value.trim();
+    return true;
+  }
+  if (n === 3) {
+    if (!state.tone) {
+      document.getElementById('err-3').classList.add('show');
+      return false;
+    }
+    document.getElementById('err-3').classList.remove('show');
+    return true;
+  }
+  if (n === 4) {
+    if (!state.sendTime) {
+      document.getElementById('err-4').classList.add('show');
+      return false;
+    }
+    document.getElementById('err-4').classList.remove('show');
+    return true;
+  }
+  if (n === 5) {
+    state.focus = document.getElementById('focus-text').value.trim();
+    return true;
+  }
+  return true;
+}
+
+// ---- CHIPS ----
+function toggleChip(el, value) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    if (!state.hobbies.includes(value)) state.hobbies.push(value);
+  } else {
+    state.hobbies = state.hobbies.filter(h => h !== value);
+  }
+}
+
+// ---- TONE ----
+function selectTone(el, tone) {
+  document.querySelectorAll('.tone-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.tone = tone;
+  document.getElementById('err-3').classList.remove('show');
+}
+
+// ---- TIME ----
+function selectTime(el, time) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.sendTime = time;
+  document.getElementById('custom-time').value = '';
+  document.getElementById('err-4').classList.remove('show');
+}
+
+function selectCustomTime(val) {
+  if (!val) return;
+  // Convert HH:MM to 12h format
+  const [h, m] = val.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  state.sendTime = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('err-4').classList.remove('show');
+}
+
+// ---- SUBMIT ----
+async function submitSetup() {
+  state.focus = document.getElementById('focus-text').value.trim();
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Saving your preferences...';
+
+  const payload = {
+    employee_id: state.employeeId,
+    hobbies: state.hobbies,
+    interests: state.hobbiesOther ? [state.hobbiesOther] : [],
+    tone: state.tone,
+    focus_areas: state.focus ? [state.focus] : [],
+    send_time: state.sendTime,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  };
+
+  try {
+    const res = await fetch(`${BACKEND}/api/employee/setup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error('Server error');
+
+    showSuccess();
+  } catch (err) {
+    console.error(err);
+    const errEl = document.getElementById('err-submit');
+    errEl.textContent = 'Something went wrong saving your preferences. Please try again.';
+    errEl.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Finish setup 🎉';
+  }
+}
+
+function showSuccess() {
+  [1,2,3,4,5].forEach(s => {
+    const el = document.getElementById('step-' + s);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('step-indicator').style.display = 'none';
+  document.getElementById('step-success').style.display = 'block';
+
+  document.getElementById('success-name').textContent = state.firstName || 'there';
+  document.querySelectorAll('.preview-name-inline').forEach(el => {
+    el.textContent = state.firstName || 'you';
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
