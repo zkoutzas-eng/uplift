@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Recover your dashboard link — Uplift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #161210; --ink-mid: #5C4A3A; --ink-soft: #9C8472;
+      --cream: #FAF7F2; --cream-deep: #E8DFD0;
+      --leaf: #2D5A3D; --leaf-light: #E8F2EB; --leaf-mid: #4A8A5F;
+      --border: rgba(92,74,58,0.13); --white: #FFFFFF;
+      --red: #DC2626; --red-light: #FEF2F2;
+    }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 5%; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .logo span { color: var(--leaf); }
+    .page { max-width: 440px; margin: 0 auto; padding: 5rem 5%; flex: 1; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; box-shadow: 0 4px 24px rgba(22,18,16,0.07); animation: fadeUp 0.4s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--leaf-mid); margin-bottom: 0.75rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 0.75rem; }
+    h1 em { font-style: italic; color: var(--leaf); }
+    .subtitle { font-size: 15px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 2rem; }
+    label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-mid); margin-bottom: 7px; }
+    input[type="email"] {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--cream-deep); border-radius: 12px;
+      font-size: 15px; font-family: 'Outfit', sans-serif; color: var(--ink);
+      background: var(--cream); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-bottom: 1rem;
+    }
+    input[type="email"]:focus { border-color: var(--leaf); box-shadow: 0 0 0 3px var(--leaf-light); background: var(--white); }
+    .btn {
+      width: 100%; padding: 14px; background: var(--leaf); color: white;
+      border: none; border-radius: 99px; font-size: 15px; font-weight: 600;
+      font-family: 'Outfit', sans-serif; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(45,90,61,0.25);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:hover { background: #234830; transform: translateY(-1px); }
+    .btn:disabled { background: var(--ink-soft); cursor: not-allowed; transform: none; box-shadow: none; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { font-size: 13px; color: var(--red); margin-bottom: 1rem; display: none; }
+    .error-msg.show { display: block; }
+    .back-link { display: block; text-align: center; margin-top: 1.25rem; font-size: 13px; color: var(--ink-soft); text-decoration: none; }
+    .back-link:hover { color: var(--ink); }
+
+    /* Success state */
+    .success-card { display: none; background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; text-align: center; box-shadow: 0 4px 24px rgba(22,18,16,0.07); animation: fadeUp 0.4s ease both; }
+    .success-icon { width: 64px; height: 64px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 28px; border: 2px solid var(--leaf-mid); }
+    .success-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 0.75rem; }
+    .success-card p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="/" class="logo">Up<span>lift</span></a>
+  </div>
+
+  <div class="page">
+
+    <!-- Request form -->
+    <div class="card" id="form-card">
+      <div class="eyebrow">Account recovery</div>
+      <h1>Lost your <em>dashboard link?</em></h1>
+      <p class="subtitle">Enter the email address you signed up with and we'll send your dashboard link straight to your inbox.</p>
+
+      <label for="email">Company email address</label>
+      <input type="email" id="email" placeholder="you@yourcompany.com" autocomplete="email">
+
+      <div class="error-msg" id="error-msg">Please enter a valid email address.</div>
+
+      <button class="btn" id="submit-btn" onclick="sendRecovery()">Send my dashboard link</button>
+      <a href="/" class="back-link">← Back to Uplift</a>
+    </div>
+
+    <!-- Success state -->
+    <div class="success-card" id="success-card">
+      <div class="success-icon">✉️</div>
+      <h2>Check your inbox.</h2>
+      <p>If that email is registered with Uplift, your dashboard link is on its way. It should arrive within a minute or two.</p>
+      <a href="/" class="back-link" style="margin-top:1.5rem;">← Back to Uplift</a>
+    </div>
+
+  </div>
+
+  <script>
+    const BACKEND = 'https://uplift-backend-sx3t.onrender.com';
+
+    async function sendRecovery() {
+      const email = document.getElementById('email').value.trim();
+      const errEl = document.getElementById('error-msg');
+      const btn = document.getElementById('submit-btn');
+
+      if (!email || !email.includes('@')) {
+        errEl.classList.add('show');
+        return;
+      }
+      errEl.classList.remove('show');
+
+      btn.innerHTML = '<span class="spinner"></span>Sending...';
+      btn.disabled = true;
+
+      try {
+        await fetch(`${BACKEND}/api/recover`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+      } catch (err) {
+        // Fail silently — always show success so we don't leak registered emails
+      }
+
+      // Always show success regardless of whether the email exists
+      document.getElementById('form-card').style.display = 'none';
+      document.getElementById('success-card').style.display = 'block';
+    }
+
+    // Allow pressing Enter to submit
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendRecovery();
+    });
+  </script>
+</body>
+</html>

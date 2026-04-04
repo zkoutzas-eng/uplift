@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Unsubscribe — Uplift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #161210; --ink-mid: #5C4A3A; --ink-soft: #9C8472;
+      --cream: #FAF7F2; --cream-deep: #E8DFD0;
+      --leaf: #2D5A3D; --leaf-light: #E8F2EB; --leaf-mid: #4A8A5F;
+      --border: rgba(92,74,58,0.13); --white: #FFFFFF;
+    }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 5%; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .logo span { color: var(--leaf); }
+    .page { max-width: 480px; margin: 0 auto; padding: 5rem 5%; text-align: center; flex: 1; }
+    .icon { font-size: 48px; margin-bottom: 1.5rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--ink); margin-bottom: 1rem; line-height: 1.2; }
+    p { font-size: 16px; color: var(--ink-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+    .btn {
+      display: inline-block; padding: 14px 36px; border-radius: 99px;
+      font-size: 15px; font-weight: 500; font-family: 'Outfit', sans-serif;
+      cursor: pointer; border: none; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-confirm { background: var(--ink); color: white; box-shadow: 0 4px 16px rgba(22,18,16,0.2); }
+    .btn-confirm:hover { background: #2e2521; }
+    .btn-confirm:disabled { background: var(--ink-soft); cursor: not-allowed; }
+    .btn-back { background: none; border: 1.5px solid var(--border); color: var(--ink-mid); margin-left: 12px; }
+    .btn-back:hover { border-color: var(--leaf); color: var(--leaf); }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; animation: fadeUp 0.4s ease both; }
+    .success-icon { width: 64px; height: 64px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 28px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="/" class="logo">Up<span>lift</span></a>
+  </div>
+
+  <div class="page">
+
+    <!-- Confirm state -->
+    <div id="confirm-state" class="card">
+      <div class="icon">✉️</div>
+      <h1>Unsubscribe from Uplift messages?</h1>
+      <p>You'll stop receiving your daily morning messages. Your company can re-invite you any time if you change your mind.</p>
+      <div>
+        <button class="btn btn-confirm" id="confirm-btn" onclick="unsubscribe()">Yes, unsubscribe me</button>
+        <a href="/" class="btn btn-back">Keep my messages</a>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div id="success-state" class="card" style="display:none;">
+      <div class="success-icon">✓</div>
+      <h1>You've been unsubscribed.</h1>
+      <p>You won't receive any more morning messages from Uplift. If you ever want to start again, just let your manager know.</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error-state" class="card" style="display:none;">
+      <div class="icon">⚠️</div>
+      <h1>Something went wrong.</h1>
+      <p>We couldn't process your unsubscribe request. Please try again or contact us at <a href="mailto:hello@upliftau.com" style="color:var(--leaf);">hello@upliftau.com</a>.</p>
+      <button class="btn btn-confirm" onclick="unsubscribe()">Try again</button>
+    </div>
+
+  </div>
+
+  <script>
+    const BACKEND = 'https://uplift-backend-sx3t.onrender.com';
+    const params = new URLSearchParams(window.location.search);
+    const employeeId = params.get('employee');
+
+    if (!employeeId) {
+      document.getElementById('confirm-state').style.display = 'none';
+      document.getElementById('error-state').style.display = 'block';
+    }
+
+    async function unsubscribe() {
+      const btn = document.getElementById('confirm-btn');
+      btn.innerHTML = '<span class="spinner"></span>Unsubscribing...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`${BACKEND}/api/unsubscribe/${employeeId}`);
+        if (!res.ok) throw new Error('Failed');
+
+        document.getElementById('confirm-state').style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+      } catch (err) {
+        document.getElementById('confirm-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
